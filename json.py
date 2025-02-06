@@ -29,32 +29,32 @@ def main():
             # Filter out None values from the list
             df_list = [df for df in df_list if df is not None]
             
-            # Check for 'batsman' column existence
+            # Check for 'batter' column existence
             valid_df_list = []
             for df in df_list:
-                if 'batsman' in df.columns:
+                if 'batter' in df.columns:
                     valid_df_list.append(df)
                 else:
-                    st.error("File missing 'batsman' column.")  # Log missing columns
+                    st.error("File missing 'batter' column.")  # Log missing columns
 
             # Concatenate DataFrames if structures are consistent
             if valid_df_list:
                 combined_df = pd.concat(valid_df_list, ignore_index=True)
 
-                # Assuming the combined DataFrame has columns 'batsman', 'runs', 'balls'
-                # Group by batsman and calculate the required statistics
-                batsman_stats = combined_df.groupby('batsman').agg(
-                    innings=('batsman', 'count'),
+                # Assuming the combined DataFrame has columns 'batter', 'runs', 'balls'
+                # Group by batter and calculate the required statistics
+                batter_stats = combined_df.groupby('batter').agg(
+                    innings=('batter', 'count'),
                     runs=('runs', 'sum'),
                     balls=('balls', 'sum')
                 ).reset_index()
 
                 # Calculate average and strike rate
-                batsman_stats['average'] = batsman_stats['runs'] / batsman_stats['innings']
-                batsman_stats['strike_rate'] = (batsman_stats['runs'] / batsman_stats['balls']) * 100
+                batter_stats['average'] = batter_stats['runs'] / batter_stats['innings']
+                batter_stats['strike_rate'] = (batter_stats['runs'] / batter_stats['balls']) * 100
 
                 # Display the summary DataFrame
-                st.write(batsman_stats)
+                st.write(batter_stats)
             else:
                 st.error("No valid data found in the uploaded files.")
         else:
