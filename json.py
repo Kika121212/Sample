@@ -24,6 +24,7 @@ def main():
     
     if st.button("Calculate Stats"):
         files = glob.glob(folder_path + "/*.json")
+        st.write(f"Files found: {files}")  # Debug line to print files found
 
         # Use ThreadPoolExecutor to read and normalize files in parallel
         with ThreadPoolExecutor() as executor:
