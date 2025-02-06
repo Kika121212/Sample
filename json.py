@@ -28,10 +28,18 @@ def main():
 
             # Filter out None values from the list
             df_list = [df for df in df_list if df is not None]
+            
+            # Check for 'batsman' column existence
+            valid_df_list = []
+            for df in df_list:
+                if 'batsman' in df.columns:
+                    valid_df_list.append(df)
+                else:
+                    st.error("File missing 'batsman' column.")  # Log missing columns
 
             # Concatenate DataFrames if structures are consistent
-            if df_list:
-                combined_df = pd.concat(df_list, ignore_index=True)
+            if valid_df_list:
+                combined_df = pd.concat(valid_df_list, ignore_index=True)
 
                 # Assuming the combined DataFrame has columns 'batsman', 'runs', 'balls'
                 # Group by batsman and calculate the required statistics
